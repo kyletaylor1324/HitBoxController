@@ -9,13 +9,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import projects.kyle.ledcontroller.ColorPicker.ColorPickerFragment;
 import projects.kyle.ledcontroller.DataHandler.LedDataMock;
-import projects.kyle.ledcontroller.DataHandler.LedDbHelper;
 import projects.kyle.ledcontroller.R;
 
 

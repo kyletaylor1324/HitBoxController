@@ -15,8 +15,6 @@ import android.widget.Toast;
 import com.madrapps.pikolo.HSLColorPicker;
 import com.madrapps.pikolo.listeners.SimpleColorSelectionListener;
 
-import projects.kyle.ledcontroller.DataHandler.LedDataHolder;
-import projects.kyle.ledcontroller.DataHandler.LedDataMock;
 import projects.kyle.ledcontroller.R;
 
 

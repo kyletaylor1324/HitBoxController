@@ -11,12 +11,12 @@ import android.util.Pair;
 
 public class LedDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + FeedReaderContract.FeedEntry.TABLE_NAME + " (" +
-                    FeedReaderContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
-                    FeedReaderContract.FeedEntry.COLUMN_NAME_COLOR + " INTEGER)";
+            "CREATE TABLE " + LedControllerContract.FeedEntry.TABLE_NAME + " (" +
+                    LedControllerContract.FeedEntry._ID + " INTEGER PRIMARY KEY," +
+                    LedControllerContract.FeedEntry.COLUMN_NAME_DATA + " VARCHAR)";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + FeedReaderContract.FeedEntry.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + LedControllerContract.FeedEntry.TABLE_NAME;
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "LEDControllerData.db";
@@ -40,19 +40,19 @@ public class LedDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public boolean insertData(int color){
+    public boolean insertData(String ledJsonData){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(FeedReaderContract.FeedEntry.COLUMN_NAME_COLOR, color);
+        contentValues.put(LedControllerContract.FeedEntry.COLUMN_NAME_DATA, ledJsonData);
         long result;
 
-        if(getColor().first){
-            result = db.update(FeedReaderContract.FeedEntry.TABLE_NAME,
+        if(getData().first){
+            result = db.update(LedControllerContract.FeedEntry.TABLE_NAME,
                     contentValues, null, null);
         }else {
              result =
-                    db.insert(FeedReaderContract.FeedEntry.TABLE_NAME,
+                    db.insert(LedControllerContract.FeedEntry.TABLE_NAME,
                             null,
                             contentValues);
         }
@@ -61,28 +61,28 @@ public class LedDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public Pair<Boolean, Integer> getColor(){
+    public Pair<Boolean, String> getData(){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor color =
-                db.rawQuery("select " + FeedReaderContract.FeedEntry.COLUMN_NAME_COLOR
-                        + " from " + FeedReaderContract.FeedEntry.TABLE_NAME, null);
-        if(color.getCount() > 0){
-            color.moveToLast();
-            return new Pair<>(true, color.getInt(0));
+        Cursor data =
+                db.rawQuery("select " + LedControllerContract.FeedEntry.COLUMN_NAME_DATA
+                        + " from " + LedControllerContract.FeedEntry.TABLE_NAME, null);
+        if(data.getCount() > 0){
+            data.moveToLast();
+            return new Pair<>(true, data.getString(0));
         }
-        return new Pair<>(false, -1);
+        return new Pair<>(false, "");
     }
 }
 
- final class FeedReaderContract {
+ final class LedControllerContract {
     // To prevent someone from accidentally instantiating the contract class,
     // make the constructor private.
-    private FeedReaderContract() {}
+    private LedControllerContract() {}
 
     /* Inner class that defines the table contents */
     public static class FeedEntry implements BaseColumns {
         public static final String TABLE_NAME = "ledData_table";
-        public static final String COLUMN_NAME_COLOR= "color";
+        public static final String COLUMN_NAME_DATA= "LedData";
     }
 }

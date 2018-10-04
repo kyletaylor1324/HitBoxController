@@ -3,7 +3,6 @@ package projects.kyle.ledcontroller.MainContent;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,14 +15,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 import projects.kyle.ledcontroller.DataHandler.LedDataMock;
+import projects.kyle.ledcontroller.Enums.DisplayModeSelection;
 import projects.kyle.ledcontroller.R;
 
 
@@ -33,7 +31,9 @@ public class MainContentFragment extends Fragment {
     MainActivityListener listener;
     LedDataMock dataHandler;
     private int color;
+    private DisplayModeSelection displayModeSelection;
     ArrayList<String> list;
+
 
     public MainContentFragment() {
 
@@ -48,7 +48,8 @@ public class MainContentFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-        color = dataHandler.getData(getContext()).getValue().color;
+        color = dataHandler.getData(getContext()).getValue().getColorList().get(0);
+        displayModeSelection = dataHandler.getData(getContext()).getValue().getDisplayModeSelection();
 
         View v = inflater.inflate(R.layout.content_main_fragment, container, false);
         mainList = (RecyclerView) v.findViewById(R.id.main_recycler_view);
